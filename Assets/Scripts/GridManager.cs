@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,12 +27,12 @@ public class GridManager : MonoBehaviour
         return gridNodes;
     }
     public void InitializeGrid()
-    { 
+    {
         gridNodes = new GridNode[gridSettings.GridSizeX, gridSettings.GridSizeY];
 
-        for(int x = 0; x < gridSettings.GridSizeX; x++)
+        for (int x = 0; x < gridSettings.GridSizeX; x++)
         {
-            for(int y = 0; y < gridSettings.GridSizeY; y++)
+            for (int y = 0; y < gridSettings.GridSizeY; y++)
             {
                 Vector3 worldPos = gridSettings.UseXZPlane
                     ? new Vector3(x, 0, y) * gridSettings.NodeSize
@@ -55,25 +54,18 @@ public class GridManager : MonoBehaviour
         IsInitialized = true;
     }
 
-    /*public GridNode GetNodeAt(int x, int y)
-    {
-        if (x >= 0 && x < gridSettings.GridSizeX && y >= 0 && y < gridSettings.GridSizeY)
-            return gridNodes[x, y];
-        return null;
-    }*/
-
     private void OnDrawGizmos()
     {
-        if(gridNodes == null || gridSettings == null) return;
+        if (gridNodes == null || gridSettings == null) return;
         Gizmos.color = Color.green;
-        for(int x = 0; x < gridSettings.GridSizeX; x++)
+        for (int x = 0; x < gridSettings.GridSizeX; x++)
         {
-            for(int y = 0; y < gridSettings.GridSizeY; y++)
+            for (int y = 0; y < gridSettings.GridSizeY; y++)
             {
                 GridNode node = gridNodes[x, y];
                 Gizmos.color = node.Walkable ? node.TerrainColor : Color.red;
                 Gizmos.DrawWireCube(node.WorldPosition, Vector3.one * gridSettings.NodeSize * 0.9f);
             }
-        }    
+        }
     }
 }
