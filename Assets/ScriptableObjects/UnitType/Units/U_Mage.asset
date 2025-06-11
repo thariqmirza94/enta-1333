@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 1
   _height: 1
-  _maxHp: 100
+  _maxHp: 150
   _minHp: 0
-  _damage: 25
+  _damage: 20
   _defense: 10
-  _attackType: 1
+  _attackType: 2
   _range: 5

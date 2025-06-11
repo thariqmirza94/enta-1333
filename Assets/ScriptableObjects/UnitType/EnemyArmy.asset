@@ -18,6 +18,6 @@ MonoBehaviour:
       prefab: {fileID: 179124, guid: 4769ba077f938d8469e015f93f5cfb70, type: 3}
     count: 2
   - unitTypePrefab:
-      unitType: {fileID: 0}
-      prefab: {fileID: 0}
-    count: 0
+      unitType: {fileID: 11400000, guid: eec094c7c1684384782a731f788f50ce, type: 2}
+      prefab: {fileID: 145554, guid: ff533433a9c1f1543a5fb98880aee46c, type: 3}
+    count: 3
