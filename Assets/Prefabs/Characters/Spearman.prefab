@@ -4482,7 +4482,7 @@ GameObject:
   - component: {fileID: 455156}
   - component: {fileID: 9500222}
   m_Layer: 3
-  m_Name: HS_Spearman
+  m_Name: Spearman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

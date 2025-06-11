@@ -14138,7 +14138,7 @@ GameObject:
   - component: {fileID: 5341457482512359643}
   - component: {fileID: 9128273666407920320}
   m_Layer: 3
-  m_Name: HS_Archer
+  m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
