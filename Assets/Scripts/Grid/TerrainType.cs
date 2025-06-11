@@ -17,7 +17,7 @@ public class TerrainType : ScriptableObject
 
     public Color GizmoColor => gizmoColor;
 
-    public bool Walkable => walkable;
+    public bool IsWalkable => walkable;
 
     public int MovementCost => movementCost;
 }
