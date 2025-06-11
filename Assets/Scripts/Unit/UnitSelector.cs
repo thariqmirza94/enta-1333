@@ -123,6 +123,7 @@ public class UnitSelector : MonoBehaviour
 
             foreach (UnitBase unit in _selectedUnits)
                 unit.MoveTo(node);
+            Debug.Log("Asking unit to move");
         }
     }
 }

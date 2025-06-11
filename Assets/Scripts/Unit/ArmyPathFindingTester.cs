@@ -6,11 +6,11 @@ using UnityEngine;
 public class ArmyPathFindingTester : MonoBehaviour
 {
     [SerializeField] private GridManager gridManager;
-    [SerializeField] private Pathfinder Pathfinder;
     [SerializeField] private List<ArmyComposition> armyCompositions = new();
     [SerializeField] private int patrolRange = 8;
     [SerializeField] private float detectionRange = 4f;
 
+    private static Pathfinder PathfinderInstance;
     private readonly List<ArmyManager> _armies = new();
 
     public ArmyManager PlayerArmy => _armies.Count > 0 ? _armies[0] : null;
@@ -28,7 +28,7 @@ public class ArmyPathFindingTester : MonoBehaviour
 
     private void Start()
     {
-        Pathfinder = new Pathfinder(gridManager);
+        PathfinderInstance = new Pathfinder(gridManager);
         _armies.Clear();
 
         for (int i = 0; i < armyCompositions.Count; i++)
@@ -36,7 +36,7 @@ public class ArmyPathFindingTester : MonoBehaviour
             //ArmyManager army = new ArmyManager { ArmyID = i + 1, GridManager = gridManager };
 
             ArmyManager army = new ArmyManager { ArmyID = i, GridManager = gridManager };
-            SpawnArmyUnits(army, armyCompositions[i]);
+            SpawnArmyUnits(army, armyCompositions[i], PathfinderInstance);
             _armies.Add(army);
 
             Debug.Log($"[Army] Created army with ID = {army.ArmyID}");
@@ -45,7 +45,7 @@ public class ArmyPathFindingTester : MonoBehaviour
 
     }
 
-    private void SpawnArmyUnits(ArmyManager army, ArmyComposition composition)
+    private void SpawnArmyUnits(ArmyManager army, ArmyComposition composition, Pathfinder pathfinder)
     {
         foreach (var entry in composition.units)
         {
@@ -76,8 +76,13 @@ public class ArmyPathFindingTester : MonoBehaviour
                 float nodeHeight = gridManager.GridSettings.NodeSize; // usually 1
                 Vector3 liftedPosition = spawnPos + Vector3.up * (nodeHeight / 2.5f + 0.1f);
                 GameObject go = Instantiate(entry.unitTypePrefab.prefab, liftedPosition, Quaternion.identity);
-                UnitInstance unit = go.GetComponent<UnitInstance>();
-                unit.Initialize(Pathfinder, gridManager,entry.unitTypePrefab.unitType);
+                var unit = go.GetComponent<UnitInstance>();
+                if (unit == null)
+                {
+                    Debug.LogError("Spawned prefab has no UnitInstance on its root!");
+                    continue;
+                }
+                unit.Initialize(pathfinder, gridManager,entry.unitTypePrefab.unitType);
                 army.Units.Add(unit);
                 //_unitStates[unit] = UnitState.Command;
                 _unitStates[unit] = army.IsPlayer ? UnitState.Command : UnitState.Patrol;

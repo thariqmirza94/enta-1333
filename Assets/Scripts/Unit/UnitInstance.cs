@@ -23,22 +23,32 @@ public class UnitInstance : UnitBase
         _pathfinder = pathfinder;
         _unitType = unitType;
         _gridManager = grid;
+        if (_pathfinder == null)
+        {
+            Debug.Log($"{gameObject.name} doesn't have pathfinder");
+        }
     }
 
     private void Update()
     {
-        
-        if (_isMoving)
+
+        // guard *first*:
+        if (!_isMoving
+            || _currentPath == null
+            || _currentPath.Count == 0
+            || _pathIndex >= _currentPath.Count)
         {
-            Debug.Log($"[Update] {name} is moving to {_currentPath[_pathIndex].WorldPosition}");
+            return;
         }
 
-        if (!_isMoving || _currentPath == null || _currentPath.Count == 0 || _pathIndex >= _currentPath.Count)
-            return;
+        // now it’s safe to log and index:
+        Debug.Log($"[Update] {name} is moving to {_currentPath[_pathIndex].WorldPosition}");
 
-        //Vector3 nextWaypoint = _currentPath[_pathIndex].WorldPosition;
-
-        Vector3 nextWaypoint = new Vector3(_currentPath[_pathIndex].WorldPosition.x, transform.position.y, _currentPath[_pathIndex].WorldPosition.z);
+        Vector3 nextWaypoint = new Vector3(
+            _currentPath[_pathIndex].WorldPosition.x,
+            transform.position.y,
+            _currentPath[_pathIndex].WorldPosition.z
+        );
 
         Vector3 direction = (nextWaypoint - transform.position).normalized;
         float step = _moveSpeed * Time.deltaTime;
@@ -100,10 +110,12 @@ public class UnitInstance : UnitBase
     public void SetTarget(GridNode node)
     {
         TargetSet(node.WorldPosition);
+        Debug.Log("SetTarget");
     }
 
     public override void MoveTo(GridNode targetNode)
     {
         SetTarget(targetNode);
+        Debug.Log("MoveTo");
     }
 }
