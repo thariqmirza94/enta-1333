@@ -55,7 +55,9 @@ public class BuildingPlacementController : MonoBehaviour
     void Select(int idx)
     {
         if (idx == currentIdx || idx < 0 || idx >= prefabs.Length) return;
-
+        
+        AudioManager.Instance.PlaySFX("select");
+        
         currentIdx = idx;
 
         if (ghost) Destroy(ghost);
@@ -128,6 +130,8 @@ public class BuildingPlacementController : MonoBehaviour
             snapPos + Vector3.up * lift,
             Quaternion.identity);
 
+        AudioManager.Instance.PlaySFX("place");
+        
         // restore original tag
         real.tag = prefabs[currentIdx].tag;
         real.layer = prefabs[currentIdx].layer;

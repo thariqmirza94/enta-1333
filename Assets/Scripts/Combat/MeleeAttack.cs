@@ -25,7 +25,11 @@ public class MeleeAttack : MonoBehaviour
             if (cooldown <= 0f)
             {
                 if (target.TryGetComponent<IDamageable>(out var dmg))
+                {
                     dmg.TakeDamage(damage, gameObject);
+                    AudioManager.Instance.PlaySFX("attack");
+                }
+
                 cooldown = 1f / attackRate;
             }
         }

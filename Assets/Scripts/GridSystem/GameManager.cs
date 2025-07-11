@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public Pathfinding Pathfinding { get; private set; }
     void Awake()
     {
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.gameMusic);
         // Ensure the grid is initialized only once
         if (!gridManager.IsInitialized)
         {

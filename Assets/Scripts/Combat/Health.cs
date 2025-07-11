@@ -30,6 +30,8 @@ public class Health : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount, GameObject source)
     {
+        AudioManager.Instance.PlaySFX("damage");
+        
         CurrentHP = Mathf.Max(CurrentHP - amount, 0);
 
         if (floatingTextPrefab)
