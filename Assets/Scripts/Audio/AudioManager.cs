@@ -22,7 +22,12 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -43,6 +48,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip clip)
     {
+        if (clip == null) return;
         musicSource.clip = clip;
         musicSource.loop = true;
         musicSource.Play();
@@ -55,6 +61,16 @@ public class AudioManager : MonoBehaviour
     public void MainMenuClick()
     {
         StopMusic();
-        SceneManager.LoadScene("CombatSystem", LoadSceneMode.Single);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void PlayMenuMusic()
+    {
+        PlayMusic(menuMusic);
+    }
+
+    public void PlayGameMusic()
+    {
+        PlayMusic(gameMusic);
     }
 }

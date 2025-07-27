@@ -1,12 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
-        AudioManager.Instance.PlayMusic(AudioManager.Instance.menuMusic);
+        AudioManager.Instance.PlayMenuMusic();
+        GameStateManager.Instance.SetState(GameState.MainMenu);
     }
 
+    public void StartGame()
+    {
+        AudioManager.Instance.StopMusic();
+        SceneManager.LoadScene("CombatSystem");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
