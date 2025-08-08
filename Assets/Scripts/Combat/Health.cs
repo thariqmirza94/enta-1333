@@ -8,6 +8,7 @@ public class Health : MonoBehaviour, IDamageable
     [field: SerializeField] public int MaxHP { get; private set; } = 100;
     public int CurrentHP { get; private set; }
 
+    [SerializeField] private bool isBase = false;
     [SerializeField] private GameObject floatingTextPrefab;
     [SerializeField] private HealthBarUI barPrefab;
     [SerializeField] private Vector3 offset = new Vector3(0, 2f, 0); // Default Y offset
@@ -48,7 +49,15 @@ public class Health : MonoBehaviour, IDamageable
 
     void Die()
     {
+        
         OnDeath?.Invoke();
+        GoldManager.Instance?.AddGold(5); // Reward on kill
+        if (isBase)
+        {
+            GameLoopManager loop = FindObjectOfType<GameLoopManager>();
+            if (loop != null)
+                loop.GameOver(false);
+        }
         Destroy(gameObject);
     }
 }

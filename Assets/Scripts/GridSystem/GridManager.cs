@@ -7,6 +7,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GridSettings gridSettings;
     public GridSettings GridSettings => gridSettings;
     [SerializeField] private GameObject wallPrefab;  
+    [SerializeField] private GameObject basePrefab;
+    [SerializeField] private Vector2Int safeZoneSize = new Vector2Int(10, 10);
 
     [SerializeField] private List<TerrainType> terrainTypes = new();
 
@@ -17,16 +19,80 @@ public class GridManager : MonoBehaviour
 
     public bool IsInitialized { get; private set; } = false;
 
+    private void Start()
+    {
+        if (!IsInitialized)
+            InitializeGrid();
+
+        PlaceFriendlyBase();
+    }
+    
+    private void PlaceFriendlyBase()
+    {
+        int originX = (gridSettings.GridSizeX / 2) - 1;
+        int originY = (gridSettings.GridSizeY / 2) - 1;
+
+        bool valid = true;
+        for (int dx = 0; dx < 2; dx++)
+        for (int dy = 0; dy < 2; dy++)
+        {
+            GridNode n = GetNodeAt(originX + dx, originY + dy);
+            if (n == null || !n.Walkable) valid = false;
+        }
+
+        if (!valid)
+        {
+            Debug.LogWarning("Not enough space to place the base.");
+            return;
+        }
+
+        Vector3 spawnPos = GetNodeAt(originX, originY).WorldPosition;
+        spawnPos += Vector3.up * gridSettings.NodeSize * 0.5f;
+
+        GameObject baseObj = Instantiate(basePrefab, spawnPos, Quaternion.identity);
+        baseObj.tag = "Friendly";
+
+        for (int dx = 0; dx < 2; dx++)
+        for (int dy = 0; dy < 2; dy++)
+        {
+            GridNode n = GetNodeAt(originX + dx, originY + dy);
+            if (n != null)
+            {
+                n.Walkable = false;
+                n.Occupant = baseObj;
+            }
+        }
+    }
+    
     public GridNode GetNodeAt(int x, int y)
     {
-        if (x >= 0 && x < gridSettings.GridSizeX && y >= 0 && y < gridSettings.GridSizeY)
+        if (gridNodes == null) return null;
+
+        if (x >= 0 && x < gridSettings.GridSizeX &&
+            y >= 0 && y < gridSettings.GridSizeY)
             return gridNodes[x, y];
+
         return null;
     }
 
     public GridNode[,] GetGrid()
     {
         return gridNodes;
+    }
+    
+    private bool IsInSafeZone(int x, int y)
+    {
+        int centerX = gridSettings.GridSizeX / 2;
+        int centerY = gridSettings.GridSizeY / 2;
+
+        int halfWidth  = safeZoneSize.x / 2;
+        int halfHeight = safeZoneSize.y / 2;
+
+        int startX = centerX - halfWidth;
+        int startY = centerY - halfHeight;
+
+        return x >= startX && x < startX + safeZoneSize.x &&
+               y >= startY && y < startY + safeZoneSize.y;
     }
     
     public List<GridNode> GetNodesInSquareRange(GridNode center, int range)
@@ -96,7 +162,7 @@ public class GridManager : MonoBehaviour
 
                 Vector3 worldPos = transform.TransformPoint(localPos);
 
-                TerrainType t = GetWeightedRandomTerrain();
+                TerrainType t = IsInSafeZone(x, y) ? terrainTypes[0] : GetWeightedRandomTerrain();
 
                 GridNode node = new GridNode
                 {
@@ -109,7 +175,7 @@ public class GridManager : MonoBehaviour
                 gridNodes[x, y] = node;
 
                 // ─────────────────────────────── spawn wall on initial unwalkables
-                if (!t.Walkable && wallPrefab != null)
+                if (!IsInSafeZone(x, y) && !t.Walkable && wallPrefab != null)
                 {
                     GameObject wall = Instantiate(wallPrefab, worldPos, Quaternion.identity);
                     wall.name = $"Wall_{x}_{y}";

@@ -9890,7 +9890,7 @@ Transform:
   m_GameObject: {fileID: 4663300686043449314}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.87, z: 0}
   m_LocalScale: {x: 2.2664788, y: 2.2664788, z: 2.2664788}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -18042,6 +18042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   repathInterval: 1
+  turnSpeedDeg: 360
 --- !u!65 &2080500004785677471
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18102,7 +18103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ba75b6cc4a89d4393d7ec3eeeea4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 150
+  <MaxHP>k__BackingField: 50
+  isBase: 0
   floatingTextPrefab: {fileID: 5555230864387013349, guid: 1236a5369f2e2a64792709b4e309da95, type: 3}
   barPrefab: {fileID: 675539464660379653, guid: 9a72fe66df5d2314bb36149d0997c1ec, type: 3}
   offset: {x: 0, y: 1, z: 0.5}

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/1333_RTS/StudentWork/Scenes/MainMenu.unity
     guid: 5e44148a1573bee45b05c573b2f38133
   - enabled: 1
+    path: Assets/1333_RTS/StudentWork/Scenes/Loading.unity
+    guid: a1da7eef8a083bf4085c7d3dc4488d7a
+  - enabled: 1
     path: Assets/1333_RTS/StudentWork/Scenes/CombatSystem.unity
     guid: d68ed2c189d764744a099e46e0ea5441
   m_configObjects:

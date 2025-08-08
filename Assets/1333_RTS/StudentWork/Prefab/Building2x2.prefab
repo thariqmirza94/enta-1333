@@ -95,7 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ba75b6cc4a89d4393d7ec3eeeea4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 1000
+  <MaxHP>k__BackingField: 200
+  isBase: 1
   floatingTextPrefab: {fileID: 5555230864387013349, guid: 1236a5369f2e2a64792709b4e309da95, type: 3}
   barPrefab: {fileID: 675539464660379653, guid: 9a72fe66df5d2314bb36149d0997c1ec, type: 3}
   offset: {x: 0.54, y: 1.417, z: 1.45}

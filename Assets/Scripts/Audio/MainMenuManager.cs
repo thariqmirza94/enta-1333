@@ -12,7 +12,7 @@ public class MainMenuManager : MonoBehaviour
     public void StartGame()
     {
         AudioManager.Instance.StopMusic();
-        SceneManager.LoadScene("CombatSystem");
+        SceneLoader.Instance.LoadScene("CombatSystem");
     }
 
     public void QuitGame()

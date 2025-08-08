@@ -48,8 +48,6 @@ public class BuildingPlacementController : MonoBehaviour
     {
         if (Keyboard.current.digit1Key.wasPressedThisFrame) Select(0);
         if (Keyboard.current.digit2Key.wasPressedThisFrame) Select(1);
-        if (Keyboard.current.digit3Key.wasPressedThisFrame) Select(2);
-        if (Keyboard.current.digit4Key.wasPressedThisFrame) Select(3);
     }
 
     void Select(int idx)
@@ -126,6 +124,19 @@ public class BuildingPlacementController : MonoBehaviour
         else
             lift = 0f;                                                     // fallback
 
+        int cost = currentIdx switch
+        {
+            0 => 5,    // Unit
+            1 => 50,   // Turret
+            _ => 0
+        };
+
+        if (!GoldManager.Instance.SpendGold(cost))
+        {
+            Debug.Log("Not enough gold to place this unit.");
+            return;
+        }
+        
         GameObject real = Instantiate(prefabs[currentIdx],
             snapPos + Vector3.up * lift,
             Quaternion.identity);
